@@ -56,7 +56,8 @@ class AttendanceSystem:
         canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
 
         # Load the image and keep a reference
-        self.logo_img = tk.PhotoImage(file="./image.png")
+        logo_path = os.path.join(os.path.dirname(__file__), 'image.png')
+        self.logo_img = tk.PhotoImage(file=logo_path)
         logo_label = tk.Label(scrollable_frame, image=self.logo_img, bg="#1035ae", height=95)
         logo_label.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
