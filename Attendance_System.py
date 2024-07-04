@@ -61,7 +61,7 @@ class AttendanceSystem:
         logo_label = tk.Label(logo_frame, image=self.logo_img, bg="#1035ae", height=95)
         logo_label.pack()
 
-        teacher_frame = tk.LabelFrame(scrollable_frame, text="", bg="#1035ae", fg="white", padx=20, pady=20)
+        teacher_frame = tk.LabelFrame(scrollable_frame, text="", bg="#1035ae", fg="white", pady=20)
         teacher_frame.grid(row=1, column=0, padx=20, pady=20, sticky="ew")
 
         tk.Label(teacher_frame, text="Teacher's Name:", bg="#1035ae", fg="white", font=font.Font(size=16)).grid(row=0, column=0, sticky="w", pady=10, padx=10)
@@ -137,16 +137,23 @@ class AttendanceSystem:
         current_month_folder = datetime.now().strftime('%Y_%m')
         os.makedirs(current_month_folder, exist_ok=True)
 
-        # Get the date from the input
-        input_date = self.date.get()
+        # Get the date from the input and sanitize the input
+        course_name = self.course_name.get().replace(" ", "_") or "UnknownCourse"
+        degree = self.degree.get().replace(" ", "_") or "UnknownDegree"
+        
+        semester = self.semester.get().replace(" ", "_") or "UnknownSemester"
+        date = datetime.now().strftime('%d_%m_%Y')
+
+        # Construct the file name
+        file_name = f"{course_name}_{degree}_{semester}_{date}"
 
         # Generate filename with input date
-        filename = f"{current_month_folder}/attendance_{input_date}.csv"
-        
+        filename = f"{current_month_folder}/attendance_{file_name}.csv"
+
         with open(filename, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["Teacher's Name", "Degree", "Semester", "Course Name", "Year", "Date", "Time"])
-            writer.writerow([self.teacher_name.get(), self.degree.get(), self.semester.get(), self.course_name.get(), self.year.get(), input_date, datetime.now().strftime("%H:%M:%S")])
+            writer.writerow([self.teacher_name.get(), self.degree.get(), self.semester.get(), self.course_name.get(), self.year.get(), self.date.get(), datetime.now().strftime("%H:%M:%S")])
             writer.writerow([])
             writer.writerow(["Student Name", "Roll Number", "Status"])
             for i, (name, roll) in enumerate(self.students):
