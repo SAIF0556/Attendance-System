@@ -155,10 +155,10 @@ class AttendanceSystem:
             writer.writerow(["Teacher's Name", "Degree", "Semester", "Course Name", "Year", "Date", "Time"])
             writer.writerow([self.teacher_name.get(), self.degree.get(), self.semester.get(), self.course_name.get(), self.year.get(), self.date.get(), datetime.now().strftime("%H:%M:%S")])
             writer.writerow([])
-            writer.writerow(["Student Name", "Roll Number", "Status"])
+            writer.writerow(["Roll Number","Student Name",  "Status"])
             for i, (name, roll) in enumerate(self.students):
                 status = self.attendance_dropdowns[i].get()
-                writer.writerow([name, roll, status])
+                writer.writerow([roll,name, status])
 
         messagebox.showinfo("Saved", f"Attendance data saved to {filename}")
 
